@@ -1,0 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Route : MonoBehaviour
+{
+    // Cubic Bezier
+
+
+    public Transform[] controlPs;
+
+    private Vector3 gizmosPos;
+
+    private void OnDrawGizmos()
+    {
+        for (float t = 0; t <= 1; t += 0.05f)
+        {
+            gizmosPos = Mathf.Pow(1 - t, 3) * controlPs[0].position + 3
+                * Mathf.Pow(1 - t, 2) * t * controlPs[1].position + 3
+                * (1 - t) * Mathf.Pow(t, 2) * controlPs[2].position +
+                Mathf.Pow(t, 3) * controlPs[3].position;
+
+            Gizmos.DrawSphere(gizmosPos, 0.25f);
+
+        }
+
+        for (int i = 0; i < controlPs.Length; i++)
+        {
+            Gizmos.DrawLine(controlPs[i].position, controlPs[i+1].position);
+        }
+    }
+}
